@@ -93,7 +93,7 @@ function integration(pars, noisevec, noise_seed, n_years, end_of_spinup = 10, th
     return output
 end
 
-function plot_integration_PDF(output, title0 = "", title1 = "", title2 = "", title3 = "", xlimits12 = nothing, xlimits3 = nothing, ylimits12 = nothing, ylimits3 = nothing)
+function plot_integration_PDF(output, title0 = "", title1 = "", title2 = "", title3 = "", xlimits12 = nothing, xlimits3 = nothing, ylimits12 = nothing, ylimits3 = nothing, yticks3 = nothing)
     # @unpack sol, t, M, M_yearly = output
     @unpack M_yearly, below, above = output
 
@@ -143,6 +143,10 @@ function plot_integration_PDF(output, title0 = "", title1 = "", title2 = "", tit
     if ylimits3 !== nothing
         ylims!(ylimits3[1], ylimits3[2])
     end
+    if yticks3 !== nothing
+        yticks!(yticks3)
+    end
+
     xlabel!("residence time [yr]")
     ylabel!("density [a.u.]")
     title!(title3)
