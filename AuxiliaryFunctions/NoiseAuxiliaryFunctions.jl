@@ -93,7 +93,7 @@ function integration(pars, noisevec, noise_seed, n_years, end_of_spinup = 10, th
     return output
 end
 
-function plot_integration_PDF(output, title0 = "", title1 = "", title2 = "", title3 = "", xlimits12 = nothing, xlimits3 = nothing, ylimits12 = nothing, ylimits3 = nothing, yticks3 = nothing)
+function plot_integration_PDF(output, title0 = "", title1 = "", title2 = "", title3 = "", threshold = 22, xlimits12 = nothing, xlimits3 = nothing, ylimits12 = nothing, ylimits3 = nothing, yticks3 = nothing)
     # @unpack sol, t, M, M_yearly = output
     @unpack M_yearly, below, above = output
 
@@ -102,12 +102,13 @@ function plot_integration_PDF(output, title0 = "", title1 = "", title2 = "", tit
 
     xaxis = 4500:5000
     yfill = zeros(length(xaxis))
-    fill!(yfill, 22)
+    fill!(yfill, threshold)
 
     p1 = plot(xaxis, M_yearly[length(M_yearly) - 500 : end], label = "", grid = false, color = "grey65", 
         framestyle = :axes) # sol.t[timeslice:end] .- 10,
     plot!(xaxis, zeros(length(xaxis)), fillrange = yfill, color = "grey65", alpha = 0.15, label = "")
     xlims!(xaxis[1], xaxis[end])
+    yticks!(18:3:30)
 
     if ylimits12 !== nothing
         ylims!(ylimits12[1], ylimits12[2])
@@ -118,6 +119,8 @@ function plot_integration_PDF(output, title0 = "", title1 = "", title2 = "", tit
 
     k_M = kde(M_yearly)
     p2 = plot(k_M.density, k_M.x, lw = 2, grid = false, label = "", color = "dodgerblue", xticks = true)
+    xticks!(0:0.25:0.5)
+    yticks!(18:3:30)
     if xlimits12 !== nothing
         xlims!(xlimits12[1], xlimits12[2])
     end
